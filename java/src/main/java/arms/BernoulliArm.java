@@ -13,6 +13,10 @@ import java.math.BigDecimal;
 public class BernoulliArm implements Arm {
     private BigDecimal probability;
 
+    /**
+     * Constructs an arm.
+     * @param probability the probability of this arm returning a 1
+     */
     public BernoulliArm(BigDecimal probability) {
         this.probability = probability;
     }

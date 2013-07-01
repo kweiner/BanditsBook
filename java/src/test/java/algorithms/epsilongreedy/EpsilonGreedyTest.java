@@ -2,11 +2,13 @@ package algorithms.epsilongreedy;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
+import algorithms.Algorithm;
+import algorithms.TestResults;
+import algorithms.Tests;
 import arms.Arm;
 import arms.BernoulliArm;
 
@@ -23,19 +25,22 @@ public class EpsilonGreedyTest {
     }
 
     @Test
-    public void test2() {
-        double[] means = { 0.1, 0.1, 0.1, 0.1, 0.9 };
-        List<Arm> arms = new ArrayList<Arm>(means.length);
-        for (int i = 0; i < means.length; i++) {
-            arms.add(new BernoulliArm(BigDecimal.valueOf(means[i])));
-        }
-        Collections.shuffle(arms);
-        System.out.println(arms.get(0).draw());
-        System.out.println(arms.get(1).draw());
-        System.out.println(arms.get(2).draw());
-        System.out.println(arms.get(2).draw());
-        System.out.println(arms.get(3).draw());
-        System.out.println(arms.get(2).draw());
-        System.out.println(arms.get(4).draw());
+    public void test() {
+        BigDecimal epsilon = BigDecimal.valueOf(.10f);
+        List<Arm> arms = new ArrayList<Arm>();
+        arms.add(new BernoulliArm(BigDecimal.valueOf(0.10f)));
+        arms.add(new BernoulliArm(BigDecimal.valueOf(0.10f)));
+        arms.add(new BernoulliArm(BigDecimal.valueOf(0.10f)));
+        arms.add(new BernoulliArm(BigDecimal.valueOf(0.10f)));
+        arms.add(new BernoulliArm(BigDecimal.valueOf(0.90f)));
+        Algorithm algo = new EpsilonGreedy(epsilon, arms.size());
+        int numSims = 1;
+        int horizon = 20;
+        TestResults results = Tests.testAlgorithm(algo, arms, numSims, horizon);
+        System.out.println("Sim Nums: " + results.getSimNums());
+        System.out.println("Times: " + results.getTimes());
+        System.out.println("Chosen Arms: " + results.getChosenArms());
+        System.out.println("Rewards: " + results.getRewards());
+        System.out.println("Cumulative Rewards: " + results.getCumulativeRewards());
     }
 }

@@ -38,6 +38,10 @@ public class EpsilonGreedy implements Algorithm {
 
     public EpsilonGreedy(BigDecimal epsilon, int nArms) {
         this.epsilon = epsilon;
+        initialize(nArms);
+    }
+
+    public void initialize(int nArms) {
         this.counts = new ArrayList<Long>(nCopies(nArms, 0L));
         this.values = new ArrayList<BigDecimal>(nCopies(nArms, ZERO));
     }
@@ -61,8 +65,7 @@ public class EpsilonGreedy implements Algorithm {
         BigDecimal value = this.values.get(chosenArm);
         BigDecimal n = BigDecimal.valueOf(newCount);
         BigDecimal nMinusOne = n.subtract(ONE);
-        BigDecimal newValue = nMinusOne.divide(n, MC).multiply(value)
-                .add(ONE.divide(n, MC).multiply(reward));
+        BigDecimal newValue = nMinusOne.divide(n, MC).multiply(value).add(ONE.divide(n, MC).multiply(reward));
         this.values.set(chosenArm, newValue);
     }
 
