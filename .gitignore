@@ -1,5 +1,4 @@
-.DS_Store
-*csv
-*tsv
-*pdf
-*pyc
+.classpath
+.project
+.settings/
+target/
