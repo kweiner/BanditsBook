@@ -14,6 +14,7 @@ import algorithms.Algorithm;
 
 public class EpsilonGreedy implements Algorithm {
     private static final MathContext MC = MathContext.DECIMAL32;
+
     /**
      * Frequency with which we should explore one of the available arms. If we
      * set epsilon to 0.1, then we'll explore the available arms on 10% of our
@@ -41,11 +42,13 @@ public class EpsilonGreedy implements Algorithm {
         initialize(nArms);
     }
 
+    @Override
     public void initialize(int nArms) {
         this.counts = new ArrayList<Long>(nCopies(nArms, 0L));
         this.values = new ArrayList<BigDecimal>(nCopies(nArms, ZERO));
     }
 
+    @Override
     public int selectArm() {
         if (random() > epsilon.doubleValue()) {
             // Exploiting
@@ -55,6 +58,7 @@ public class EpsilonGreedy implements Algorithm {
         return (int) (random() * this.values.size());
     }
 
+    @Override
     public void update(int chosenArm, BigDecimal reward) {
         // Update counts
         long count = this.counts.get(chosenArm);

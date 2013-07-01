@@ -21,6 +21,7 @@ public class BernoulliArm implements Arm {
         this.probability = probability;
     }
 
+    @Override
     public BigDecimal draw() {
         if (random() > this.probability.doubleValue()) {
             return ZERO;
