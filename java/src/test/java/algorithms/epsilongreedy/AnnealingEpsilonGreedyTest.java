@@ -16,7 +16,7 @@ import algorithms.Tests;
 import arms.Arm;
 import arms.BernoulliArm;
 
-public class EpsilonGreedyTest {
+public class AnnealingEpsilonGreedyTest {
     @Test
     public void test() throws Exception {
         float[] means = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.9f };
@@ -24,21 +24,18 @@ public class EpsilonGreedyTest {
         shuffle(arms, new Random(1L));
         System.out.println("Best arm is " + indexOfMax(means));
 
-        PrintWriter writer = new PrintWriter("standard_results.csv", "UTF-8");
+        Algorithm algo = new AnnealingEpsilonGreedy(arms.size());
+        TestResults results = Tests.testAlgorithm(algo, arms, 5000, 250);
+
+        PrintWriter writer = new PrintWriter("annealing_results.csv", "UTF-8");
         final String delim = ",";
 
-        float[] epsilons = new float[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
-        for (float epsilon : epsilons) {
-            Algorithm algo = new EpsilonGreedy(valueOf(epsilon), arms.size());
-            TestResults results = Tests.testAlgorithm(algo, arms, 5000, 250);
-            for (int i = 0; i < results.getSimNums().size(); i++) {
-                writer.print(epsilon + delim);
-                writer.print(results.getSimNums().get(i) + delim);
-                writer.print(results.getTimes().get(i) + delim);
-                writer.print(results.getChosenArms().get(i) + delim);
-                writer.print(results.getRewards().get(i) + delim);
-                writer.print(results.getCumulativeRewards().get(i) + "\n");
-            }
+        for (int i = 0; i < results.getSimNums().size(); i++) {
+            writer.print(results.getSimNums().get(i) + delim);
+            writer.print(results.getTimes().get(i) + delim);
+            writer.print(results.getChosenArms().get(i) + delim);
+            writer.print(results.getRewards().get(i) + delim);
+            writer.print(results.getCumulativeRewards().get(i) + "\n");
         }
 
         writer.close();
