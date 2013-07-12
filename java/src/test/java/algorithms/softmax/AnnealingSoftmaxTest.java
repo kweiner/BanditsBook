@@ -25,7 +25,7 @@ public class AnnealingSoftmaxTest {
         System.out.println("Best arm is " + indexOfMax(means));
 
         Algorithm algo = new AnnealingSoftmax(arms.size());
-        TestResults results = Tests.testAlgorithm(algo, arms, 100, 250);
+        TestResults results = Tests.testAlgorithm(algo, arms, 5000, 250);
 
         PrintWriter writer = new PrintWriter("standard_softmax_results.csv", "UTF-8");
         final String delim = ",";

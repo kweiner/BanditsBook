@@ -1,4 +1,4 @@
-package algorithms.softmax;
+package algorithms.ucb;
 
 import static java.math.BigDecimal.valueOf;
 import static java.util.Collections.shuffle;
@@ -16,7 +16,7 @@ import algorithms.Tests;
 import arms.Arm;
 import arms.BernoulliArm;
 
-public class SoftmaxTest {
+public class Ucb1Test {
     @Test
     public void test() throws Exception {
         float[] means = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.9f };
@@ -24,21 +24,17 @@ public class SoftmaxTest {
         shuffle(arms, new Random(1L));
         System.out.println("Best arm is " + indexOfMax(means));
 
-        PrintWriter writer = new PrintWriter("standard_softmax_results.csv", "UTF-8");
+        PrintWriter writer = new PrintWriter("ucb1_results.csv", "UTF-8");
         final String delim = ",";
 
-        float[] temperatures = new float[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
-        for (float temperature : temperatures) {
-            Algorithm algo = new Softmax(valueOf(temperature), arms.size());
-            TestResults results = Tests.testAlgorithm(algo, arms, 5000, 250);
-            for (int i = 0; i < results.getSimNums().size(); i++) {
-                writer.print(temperature + delim);
-                writer.print(results.getSimNums().get(i) + delim);
-                writer.print(results.getTimes().get(i) + delim);
-                writer.print(results.getChosenArms().get(i) + delim);
-                writer.print(results.getRewards().get(i) + delim);
-                writer.print(results.getCumulativeRewards().get(i) + "\n");
-            }
+        Algorithm algo = new Ucb1(arms.size());
+        TestResults results = Tests.testAlgorithm(algo, arms, 5000, 250);
+        for (int i = 0; i < results.getSimNums().size(); i++) {
+            writer.print(results.getSimNums().get(i) + delim);
+            writer.print(results.getTimes().get(i) + delim);
+            writer.print(results.getChosenArms().get(i) + delim);
+            writer.print(results.getRewards().get(i) + delim);
+            writer.print(results.getCumulativeRewards().get(i) + "\n");
         }
 
         writer.close();
